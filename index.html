@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Proposta Comercial — Emilly Estética</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #223148;
+    --navy-deep: #1a2533;
+    --blue: #2f486d;
+    --blue-soft: #6f87a8;
+    --cream: #f3eae0;
+    --cream-bg: #f7f1e8;
+    --cream-light: #fbf7f0;
+    --stone: #d2c7b8;
+    --ink: #2b3440;
+    --slate: #46535f;
+    --muted: #8a8175;
+    --muted-blue: #7a8aa3;
+    --green: #2d7a5e;
+    --white: #ffffff;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--body);
+    background: var(--navy-deep);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ── Slide container ── */
+  .slides-wrapper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .45s ease, transform .45s ease;
+    transform: scale(0.97);
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  .slide-inner {
+    width: min(92vw, 960px);
+    height: min(88vh, 640px);
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 12px 60px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.15);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Navigation ── */
+  .nav-bar {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 100;
+    background: rgba(34,49,72,.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 18px;
+    border-radius: 40px;
+    border: 1px solid rgba(243,234,224,.1);
+  }
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(243,234,224,.1);
+    color: var(--cream);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s;
+  }
+  .nav-btn:hover { background: rgba(243,234,224,.2); }
+  .nav-btn:disabled { opacity: .25; cursor: default; }
+  .nav-btn:disabled:hover { background: rgba(243,234,224,.1); }
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .nav-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(243,234,224,.2);
+    border: none;
+    cursor: pointer;
+    transition: all .25s;
+    padding: 0;
+  }
+  .nav-dot.active {
+    background: var(--cream);
+    width: 20px;
+    border-radius: 4px;
+  }
+  .slide-counter {
+    font-family: var(--display);
+    font-size: 11px;
+    color: rgba(243,234,224,.45);
+    letter-spacing: 1px;
+    min-width: 36px;
+    text-align: center;
+  }
+
+  /* ── Capa ── */
+  .capa-slide .slide-inner {
+    background: linear-gradient(160deg, rgba(26,37,51,.95), rgba(34,49,72,.98));
+    color: var(--cream);
+  }
+  .capa-top {
+    padding: 2.2rem 2.8rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .capa-badge {
+    font-family: var(--display);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--blue-soft);
+    border: 1px solid rgba(111,135,168,.3);
+    padding: 5px 12px;
+    border-radius: 4px;
+  }
+  .capa-date {
+    font-family: var(--display);
+    font-size: 11px;
+    color: rgba(243,234,224,.35);
+    letter-spacing: 1px;
+  }
+  .capa-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2.8rem;
+    position: relative;
+  }
+  .capa-ghost {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(120px, 18vw, 200px);
+    color: rgba(243,234,224,.03);
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -4px;
+  }
+  .capa-divider {
+    width: 42px;
+    height: 1px;
+    background: var(--blue-soft);
+    margin-bottom: 1.5rem;
+  }
+  .capa-title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(24px, 3.6vw, 38px);
+    line-height: 1.1;
+    letter-spacing: -0.8px;
+    margin-bottom: 1rem;
+    max-width: 520px;
+    position: relative;
+    z-index: 2;
+  }
+  .capa-subtitle {
+    font-size: 14px;
+    color: rgba(243,234,224,.5);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .capa-for { font-size: 12px; color: rgba(243,234,224,.35); }
+  .capa-for strong { color: var(--cream); font-weight: 500; }
+  .capa-bottom {
+    padding: 1.5rem 2.8rem;
+    border-top: 1px solid rgba(243,234,224,.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .capa-author { display: flex; align-items: center; gap: 10px; }
+  .capa-avatar {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 500; font-size: 14px;
+    color: var(--navy); letter-spacing: 0.5px;
+  }
+  .capa-author-name {
+    font-family: var(--display); font-size: 12px; font-weight: 500;
+    color: var(--cream); letter-spacing: 2px;
+  }
+  .capa-author-role { font-size: 10px; color: rgba(243,234,224,.4); }
+  .capa-confidential {
+    font-family: var(--display); font-size: 9px;
+    color: rgba(243,234,224,.2); letter-spacing: .12em;
+  }
+
+  /* ── Content slides ── */
+  .content-slide .slide-inner { padding: 2.2rem 2.8rem; }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.8rem;
+    padding-bottom: .8rem;
+    border-bottom: 0.5px solid var(--stone);
+    flex-shrink: 0;
+  }
+  .page-header-brand {
+    font-family: var(--display); font-size: 11px; font-weight: 500;
+    color: var(--navy); letter-spacing: 3px;
+  }
+  .page-header-section {
+    font-family: var(--display); font-size: 9px;
+    color: var(--muted); letter-spacing: .14em; text-transform: uppercase;
+  }
+
+  .slide-body { flex: 1; overflow-y: auto; padding-right: 4px; }
+  .slide-body::-webkit-scrollbar { width: 3px; }
+  .slide-body::-webkit-scrollbar-thumb { background: var(--stone); border-radius: 3px; }
+
+  .section-eyebrow {
+    font-family: var(--display); font-size: 10px; font-weight: 500;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--blue-soft); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(20px, 2.8vw, 24px);
+    color: var(--navy); margin-bottom: 4px; line-height: 1.15; letter-spacing: -0.4px;
+  }
+  .section-subtitle { font-size: 13px; color: var(--slate); margin-bottom: 1.5rem; }
+
+  .text-block { margin-bottom: 1.2rem; font-size: 13px; color: var(--slate); line-height: 1.75; }
+  .text-block strong { color: var(--ink); font-weight: 600; }
+
+  .highlight-box {
+    background: var(--cream-light); border: 0.5px solid var(--stone);
+    border-radius: 12px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem;
+  }
+  .highlight-box-title {
+    font-family: var(--display); font-size: 13px; font-weight: 500;
+    color: var(--navy); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .highlight-box p { font-size: 12px; color: var(--slate); line-height: 1.7; }
+
+  .accent-box {
+    background: rgba(47,72,109,.05); border-left: 3px solid var(--blue);
+    border-radius: 0 10px 10px 0; padding: 1rem 1.3rem; margin-bottom: 1.2rem;
+  }
+  .accent-box p { font-size: 12px; color: var(--slate); line-height: 1.7; }
+  .accent-box strong { color: var(--blue); }
+
+  .deliverable-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.2rem; }
+  .deliverable-card {
+    background: var(--cream-light); border: 0.5px solid var(--stone);
+    border-radius: 12px; padding: .9rem 1.1rem;
+  }
+  .deliverable-icon { color: var(--blue); margin-bottom: 8px; display: flex; }
+  .deliverable-title {
+    font-family: var(--display); font-size: 12px; font-weight: 500;
+    color: var(--navy); margin-bottom: 3px;
+  }
+  .deliverable-desc { font-size: 11px; color: var(--muted); line-height: 1.45; }
+
+  /* Tables */
+  .prop-table { width: 100%; border-collapse: collapse; margin-bottom: 1.2rem; font-size: 12px; }
+  .prop-table thead th {
+    text-align: left; padding: 8px 12px;
+    font-family: var(--display); font-size: 10px; font-weight: 500;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); background: var(--cream-light);
+    border-bottom: 0.5px solid var(--stone);
+  }
+  .prop-table thead th:first-child { border-radius: 8px 0 0 0; }
+  .prop-table thead th:last-child { border-radius: 0 8px 0 0; }
+  .prop-table tbody td {
+    padding: 10px 12px; border-bottom: 0.5px solid var(--cream);
+    color: var(--slate); vertical-align: top;
+  }
+  .prop-table tbody tr:last-child td { border-bottom: none; }
+  .prop-table .col-item { font-family: var(--display); font-weight: 500; color: var(--ink); }
+  .prop-table .col-val { font-family: var(--display); font-weight: 600; color: var(--navy); text-align: right; }
+
+  .total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--navy); color: var(--cream);
+    border-radius: 12px; padding: .9rem 1.3rem; margin-bottom: 1.2rem;
+  }
+  .total-label { font-family: var(--display); font-size: 13px; font-weight: 500; }
+  .total-value { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -0.5px; }
+  .total-sub { font-size: 10px; color: rgba(243,234,224,.4); margin-top: 2px; }
+
+  /* Timeline */
+  .timeline { margin-bottom: 1rem; }
+  .timeline-item { display: flex; gap: 14px; position: relative; }
+  .timeline-marker { width: 28px; display: flex; flex-direction: column; align-items: center; }
+  .timeline-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--blue); flex-shrink: 0; margin-top: 4px;
+  }
+  .timeline-line { width: 1px; flex: 1; background: var(--stone); margin: 3px 0; }
+  .timeline-content { padding-bottom: 1.2rem; }
+  .timeline-title { font-family: var(--display); font-size: 12px; font-weight: 500; color: var(--navy); }
+  .timeline-desc { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+  .footer-note {
+    margin-top: 1.2rem; padding-top: .8rem;
+    border-top: 0.5px solid var(--stone);
+    font-size: 10px; color: var(--muted); text-align: center; letter-spacing: 0.3px;
+  }
+  .page-number {
+    position: absolute; bottom: 1.5rem; right: 2.2rem;
+    font-family: var(--display); font-size: 10px; color: var(--muted); letter-spacing: 1px;
+  }
+
+  /* ── Keyboard hint ── */
+  .key-hint {
+    position: fixed; top: 20px; right: 24px; z-index: 100;
+    font-family: var(--display); font-size: 10px; color: rgba(243,234,224,.3);
+    letter-spacing: 1px; display: flex; gap: 6px; align-items: center;
+  }
+  .key-hint kbd {
+    background: rgba(243,234,224,.08); border: 1px solid rgba(243,234,224,.12);
+    border-radius: 4px; padding: 2px 7px; font-family: var(--display);
+    font-size: 10px; color: rgba(243,234,224,.4);
+  }
+
+  @media (max-width: 700px) {
+    .slide-inner { width: 96vw; height: 92vh; border-radius: 12px; }
+    .capa-top, .capa-content, .capa-bottom { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .content-slide .slide-inner { padding: 1.5rem; }
+    .deliverable-grid { grid-template-columns: 1fr; }
+    .capa-ghost { display: none; }
+    .key-hint { display: none; }
+    .nav-bar { bottom: 16px; }
+  }
+
+  @media print {
+    html, body { overflow: visible; height: auto; background: white; }
+    .slides-wrapper { height: auto; overflow: visible; }
+    .slide { position: relative; opacity: 1; pointer-events: auto; transform: none; page-break-after: always; }
+    .slide-inner { width: 100%; height: auto; min-height: 100vh; box-shadow: none; border-radius: 0; }
+    .nav-bar, .key-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="key-hint"><kbd>←</kbd> <kbd>→</kbd> para navegar</div>
+
+<div class="slides-wrapper">
+
+  <!-- ═══════ SLIDE 1: CAPA ═══════ -->
+  <div class="slide capa-slide active" data-slide="0">
+    <div class="slide-inner">
+      <div class="capa-top">
+        <div class="capa-badge">Proposta Comercial</div>
+        <div class="capa-date">Junho 2026</div>
+      </div>
+      <div class="capa-content">
+        <div class="capa-ghost">E</div>
+        <div class="capa-divider"></div>
+        <h1 class="capa-title">Assistente Virtual com IA + CRM para Emilly Estética</h1>
+        <p class="capa-subtitle">Solução completa de atendimento automatizado no WhatsApp com painel de gestão de clientes, agendamentos e relatórios de desempenho.</p>
+        <div class="capa-for">Preparado para <strong>Emilly Estética</strong></div>
+      </div>
+      <div class="capa-bottom">
+        <div class="capa-author">
+          <div class="capa-avatar">MD</div>
+          <div>
+            <div class="capa-author-name">MURILO DIAS</div>
+            <div class="capa-author-role">Consultor de IA & Processos</div>
+          </div>
+        </div>
+        <div class="capa-confidential">DOCUMENTO CONFIDENCIAL</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 2: O PROBLEMA ═══════ -->
+  <div class="slide content-slide" data-slide="1">
+    <div class="slide-inner">
+      <div class="page-header">
+        <span class="page-header-brand">MURILO DIAS</span>
+        <span class="page-header-section">O Problema</span>
+      </div>
+      <div class="slide-body">
+        <div class="section-eyebrow">Contexto</div>
+        <h2 class="section-title">O que está acontecendo hoje</h2>
+        <p class="section-subtitle">Por que a Emilly Estética precisa dessa solução</p>
+
+        <div class="text-block">
+          Enquanto a Dra. Emilly está em plantão ou realizando procedimentos, potenciais clientes chegam pelo WhatsApp através do tráfego pago — mas <strong>não recebem resposta a tempo</strong>. Cada mensagem não respondida em até 5 minutos tem <strong>80% de chance de virar um lead perdido</strong>.
+        </div>
+
+        <div class="highlight-box">
+          <div class="highlight-box-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+            O impacto direto no faturamento
+          </div>
+          <p>Se 10 pessoas entram em contato por dia via tráfego e 6 não são respondidas a tempo, são potencialmente <strong>180 clientes perdidos por mês</strong> — mesmo com investimento em anúncios rodando normalmente.</p>
+        </div>
+
+        <div class="text-block">
+          Além disso, sem um sistema centralizado, os dados dos clientes ficam espalhados entre conversas do WhatsApp, anotações manuais e memória — dificultando o acompanhamento, a organização da agenda e a análise de resultados.
+        </div>
+
+        <div class="accent-box">
+          <p><strong>A solução proposta</strong> resolve os dois problemas simultaneamente: um agente de IA que atende 24h no WhatsApp e um CRM que organiza todos os dados automaticamente — sem que a Emilly precise mudar a rotina dela.</p>
+        </div>
+
+        <div class="section-eyebrow" style="margin-top:1rem">Entregáveis</div>
+        <h2 class="section-title">O que está incluído</h2>
+        <p class="section-subtitle">Tudo que será entregue no projeto</p>
+
+        <div class="deliverable-grid">
+          <div class="deliverable-card">
+            <div class="deliverable-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            </div>
+            <div class="deliverable-title">Agente de IA — Luna</div>
+            <div class="deliverable-desc">Assistente virtual no WhatsApp que atende, coleta dados, tira dúvidas e agenda consultas automaticamente 24h por dia.</div>
+          </div>
+          <div class="deliverable-card">
+            <div class="deliverable-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+            </div>
+            <div class="deliverable-title">CRM Completo</div>
+            <div class="deliverable-desc">Painel web com tabela, kanban, filtros, busca e detalhes de cada lead — alimentado automaticamente pelo agente.</div>
+          </div>
+          <div class="deliverable-card">
+            <div class="deliverable-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            </div>
+            <div class="deliverable-title">Agenda Visual</div>
+            <div class="deliverable-desc">Visualização mensal e semanal de todas as consultas agendadas, integrada aos dados do CRM.</div>
+          </div>
+          <div class="deliverable-card">
+            <div class="deliverable-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+            </div>
+            <div class="deliverable-title">Relatórios e Métricas</div>
+            <div class="deliverable-desc">Gráficos de origem dos leads, serviços mais pedidos, taxa de conversão e evolução mensal.</div>
+          </div>
+        </div>
+      </div>
+      <span class="page-number">02</span>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 3: INVESTIMENTO ═══════ -->
+  <div class="slide content-slide" data-slide="2">
+    <div class="slide-inner">
+      <div class="page-header">
+        <span class="page-header-brand">MURILO DIAS</span>
+        <span class="page-header-section">Investimento</span>
+      </div>
+      <div class="slide-body">
+        <div class="section-eyebrow">Valores</div>
+        <h2 class="section-title">Investimento</h2>
+        <p class="section-subtitle">Valores transparentes, sem surpresas</p>
+
+        <table class="prop-table">
+          <thead><tr><th>Item</th><th>Descrição</th><th style="text-align:right">Valor</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="col-item">Implementação</td>
+              <td>Configuração completa do agente de IA, CRM, automações, integração com WhatsApp e treinamento inicial</td>
+              <td class="col-val">R$ 800</td>
+            </tr>
+            <tr>
+              <td class="col-item">Condição de pagamento</td>
+              <td>Até 3x Parcelamento sujeito às taxas da operadora de cartão.</td>
+              <td class="col-val">Até 3x C/ Juros</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="total-row">
+          <div>
+            <div class="total-label">Mensalidade (após implementação)</div>
+            <div class="total-sub">Inclui manutenção, suporte, infraestrutura e IA</div>
+          </div>
+          <div style="text-align:right">
+            <div class="total-value">R$ 300<span style="font-size:13px;font-weight:400">/mês</span></div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <div class="highlight-box-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            O que está incluído na mensalidade
+          </div>
+          <p>Manutenção e atualizações do agente de IA e do CRM • Infraestrutura completa (servidores, IA, automações) • Suporte técnico prioritário • Ajustes no roteiro do agente conforme necessidade • Relatórios mensais de desempenho</p>
+        </div>
+
+      </div>
+      <span class="page-number">03</span>
+    </div>
+  </div>
+
+  <!-- ═══════ SLIDE 4: CRONOGRAMA + CTA ═══════ -->
+  <div class="slide content-slide" data-slide="3">
+    <div class="slide-inner">
+      <div class="page-header">
+        <span class="page-header-brand">MURILO DIAS</span>
+        <span class="page-header-section">Cronograma</span>
+      </div>
+      <div class="slide-body">
+        <div class="section-eyebrow">Prazo de entrega</div>
+        <h2 class="section-title">Cronograma de implementação</h2>
+        <p class="section-subtitle">Prazo estimado: 5 a 7 dias úteis após aprovação</p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-marker"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Dia 1-2 — Configuração da base</div>
+              <div class="timeline-desc">Criação da tabela de dados estruturada, configuração do CRM e setup das automações no n8n.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Dia 3-4 — Agente de IA</div>
+              <div class="timeline-desc">Construção do agente Luna com roteiro de atendimento personalizado, testes de conversação e ajustes finos.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Dia 5 — Integração WhatsApp</div>
+              <div class="timeline-desc">Conexão do agente ao WhatsApp Business via Uazapi e testes de ponta a ponta.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-marker"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Dia 6-7 — Testes finais e entrega</div>
+              <div class="timeline-desc">Validação com a Emilly, ajustes no tom do agente, treinamento de uso do CRM e entrega final.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note" style="margin-top: 3rem;">
+          Esta proposta é válida por 15 dias a partir da data de envio.<br>
+          Murilo Dias — Consultoria de IA & Processos · 2026
+        </div>
+      </div>
+      <span class="page-number">04</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" disabled>‹</button>
+  <div class="nav-dots" id="navDots"></div>
+  <span class="slide-counter" id="slideCounter">1 / 4</span>
+  <button class="nav-btn" id="nextBtn">›</button>
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('navDots');
+  const counter = document.getElementById('slideCounter');
+
+  // Create dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  prevBtn.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
+  nextBtn.addEventListener('click', () => { if (current < total - 1) goTo(current + 1); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (current < total - 1) goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (current > 0) goTo(current - 1); }
+  });
+
+  // Touch/swipe
+  let startX = 0;
+  document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && current < total - 1) goTo(current + 1);
+      if (diff < 0 && current > 0) goTo(current - 1);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
