@@ -28,6 +28,7 @@ body { font-family:'DM Sans',sans-serif; background:var(--blush); color:var(--in
 .logo-circle { width:36px; height:36px; border-radius:50%; background:var(--rose-soft); display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-size:17px; color:var(--rose); }
 .brand-name { font-size:15px; font-weight:600; }
 .brand-sub { font-size:11px; color:var(--ink-soft); padding-left:46px; }
+.sidebar-nav { display:flex; flex-direction:column; gap:2px; }
 .nav-label { font-size:10px; font-weight:600; letter-spacing:.08em; color:var(--ink-soft); text-transform:uppercase; padding:0 .5rem; margin-bottom:4px; }
 .nav-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; font-size:13px; color:var(--ink-mid); cursor:pointer; border:none; background:none; width:100%; text-align:left; transition:background .15s,color .15s; }
 .nav-item i { font-size:16px; color:var(--ink-soft); transition:color .15s; }
@@ -221,9 +222,58 @@ tbody tr:last-child td { border-bottom:none; }
 .toast.toast-err { background:var(--red); }
 
 @media(max-width:768px){
-  .sidebar{display:none;} .main{margin-left:0;} .content{padding:1rem;}
-  .form-grid{grid-template-columns:1fr;} .detail-panel{width:100%;}
+  /* Sidebar passa a ser uma barra de navegação fixa no rodapé */
+  .sidebar {
+    flex-direction:row; width:100%; height:auto; bottom:0; top:auto; right:0;
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px)); gap:0;
+    border-right:none; border-top:1px solid var(--border);
+    justify-content:space-around; z-index:60;
+  }
+  .sidebar > div:first-child, .sidebar-footer { display:none; }
+  .sidebar-nav { flex-direction:row; width:100%; justify-content:space-around; gap:0; }
+  .nav-label { display:none; }
+  .nav-item { flex-direction:column; gap:2px; font-size:10px; padding:6px 2px; flex:1; }
+  .nav-item i { font-size:19px; }
+
+  .main { margin-left:0; padding-bottom:calc(58px + env(safe-area-inset-bottom,0px)); }
+  .content { padding:1rem; }
+  .toast { bottom:calc(58px + env(safe-area-inset-bottom,0px) + .75rem); right:1rem; left:1rem; }
+
+  .topbar { padding:0 1rem; }
+  .topbar > div:first-child { min-width:0; overflow:hidden; }
+  .topbar-title, .topbar-sub { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .topbar-right { flex-shrink:0; }
+
+  .filters { flex-direction:column; align-items:stretch; }
+  .search-wrap, .search-wrap input, .filters select.filter-input { width:100%; min-width:0; }
+
+  .table-wrap { overflow-x:auto; }
+  thead th:nth-child(2), tbody td:nth-child(2),
+  thead th:nth-child(5), tbody td:nth-child(5) { display:none; }
+
+  .relatorio-grid { grid-template-columns:1fr; }
+
+  .agenda-toolbar { justify-content:center; }
+  .agenda-nav { flex-wrap:wrap; justify-content:center; width:100%; }
+  .agenda-nav-title { min-width:0; font-size:14px; }
+  .agenda-view-toggle { margin:0 auto; }
+
+  .cal-day { min-height:58px; padding:4px 3px; }
+  .cal-day-num { font-size:10px; margin-bottom:2px; }
+  .cal-dow { font-size:9px; padding:6px 2px; }
+  .cal-event { font-size:8px; padding:1px 3px; }
+  .cal-more { font-size:8px; }
+
+  #agenda-semana-wrap { overflow-x:auto; }
+  .week-grid { min-width:560px; }
   .week-header,.week-body{grid-template-columns:40px repeat(7,1fr);}
+
+  .form-grid{grid-template-columns:1fr;} .detail-panel{width:100%;}
+  .modal { padding:1.25rem; }
+}
+
+@media(max-width:420px){
+  .btn-text { display:none; }
 }
 </style>
 </head>
@@ -239,7 +289,7 @@ tbody tr:last-child td { border-bottom:none; }
     </div>
     <div class="brand-sub">Painel de atendimento</div>
   </div>
-  <nav style="display:flex;flex-direction:column;gap:2px;">
+  <nav class="sidebar-nav">
     <div class="nav-label">Menu</div>
     <button class="nav-item active" id="nav-leads" onclick="showPage('leads',this)"><i class="ti ti-users"></i> Leads</button>
     <button class="nav-item" id="nav-agenda" onclick="showPage('agenda',this)"><i class="ti ti-calendar"></i> Agenda</button>
@@ -258,7 +308,7 @@ tbody tr:last-child td { border-bottom:none; }
     <div class="topbar-right">
       <button class="btn" onclick="openConfig()"><i class="ti ti-settings"></i></button>
       <button class="btn" onclick="loadLeads()"><i class="ti ti-refresh" id="refresh-icon"></i></button>
-      <button class="btn btn-rose" id="btn-novo" onclick="openModal()"><i class="ti ti-plus"></i> Novo lead</button>
+      <button class="btn btn-rose" id="btn-novo" onclick="openModal()"><i class="ti ti-plus"></i> <span class="btn-text">Novo lead</span></button>
     </div>
   </header>
 
